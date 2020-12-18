@@ -99,6 +99,16 @@ class Camera{
         this.zoomFactor=1;
         this.trackingSpeed=1;
         this.transitions={};
+        this.easingNames={
+            "linear":[],
+            "ease":[[0.25,0.1],[0.25,1]],
+            "ease-in":[[0.37,0],[0.67,0]],
+            "ease-out":[[0.33,1],[0.68,1]],
+            "ease-in-out":[[0.65,0],[0.35,1]],
+            "ease-in-back":[[0.36,0],[0.66,-0.56]],
+            "ease-out-back":[[0.34,1.56],[0.64,1]],
+            "ease-in-out-back":[[0.68,-0.6],[0.32,1.6]]
+        };
     }
     move(x,y,sec,p){
         if(sec)return this.transition(4,p,sec,[this.x,this.y],[(this.lockX && this.isTracking)?this.x:x,(this.lockY && this.isTracking)?this.y:y],a=>{this.x=a[0];this.y=a[1]});
@@ -119,7 +129,8 @@ class Camera{
     }
     transition(id,pp=this.easing,sec,a,b,f){
         let p;
-        if(Array.isArray(pp)){
+        if(typeof pp==="string")p=this.easingNames[pp];
+        else if(Array.isArray(pp)){
             p=pp.map(a=>[a[0]>1 ? 1:a[0]<0 ? 0:a[0],a[1]]);
             p.unshift([0,0]);p.push([1,1]);
         }else p=pp;
