@@ -1,4 +1,4 @@
-class AreaEffect{
+class Collider{
     constructor(options){
         let {x,y,width=0,height=0,radius=0,onCollide,onUncollide,customCollision}=options;
         this.x=x;
