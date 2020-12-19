@@ -119,8 +119,13 @@ class Camera{
         this.rotation=n;
     }
     startTracking(obj,sec,p){
-        this.tracking=obj;
-        if(sec)return this.transition(0,p,sec,[this.x,this.y],()=>[obj.x,obj.y],(a,l,t)=>{if(t)this.isTracking=true;this.x=this.lockX ? this.x:a[0];this.y=this.lockY ? this.y:a[1]});
+        this.tracking=obj;let tks=this.trackingSpeed;
+        if(sec){
+            this.trackingSpeed=0;
+            let t=this.transition(0,p,sec,[this.x,this.y],()=>[obj.x,obj.y],(a,l,t)=>{if(t)this.isTracking=true;this.x=this.lockX ? this.x:a[0];this.y=this.lockY ? this.y:a[1]});
+            setTimeout(()=>this.trackingSpeed=tks,1);
+            return t;
+        }
         this.x=obj.x;this.y=obj.y;this.isTracking=true;
     }
     stopTracking(){
